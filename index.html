@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Kumar - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #1a1a1a;
+            --accent-color: #00ff88;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3, h4 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #00cc6a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--secondary-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80') no-repeat center center/cover;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 255, 136, 0.1);
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--secondary-color);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-item i {
+            font-size: 40px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        /* Frontend Development Section */
+        .frontend-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .frontend-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .frontend-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .frontend-item i {
+            font-size: 40px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        /* Certifications Section */
+        .certifications-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .certification-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .certification-item:hover {
+            transform: translateY(-10px);
+            background-color: #222;
+        }
+
+        .certification-item i {
+            font-size: 40px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        /* Education Section */
+        .education-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .education-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .education-item h3 {
+            color: var(--accent-color);
+        }
+
+        .education-date {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* Training Section */
+        .training-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .training-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .training-item h3 {
+            color: var(--accent-color);
+        }
+
+        .training-date {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* Projects Section */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-item {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .project-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-item:hover .project-img img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            color: var(--accent-color);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .project-tags span {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .project-links a {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .project-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--secondary-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-details p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-details i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Login Form */
+        .login-form {
+            background-color: var(--primary-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--secondary-color);
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .login-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Resume Display Section */
+        .resume-display {
+            text-align: center;
+            padding: 40px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            height: 1120px; /* A4 height in pixels */
+            width: 792px; /* A4 width in pixels */
+        }
+
+        .resume-preview {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .resume-icon {
+            font-size: 80px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .resume-text {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .resume-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Positions of Responsibility Section */
+        .responsibility-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .responsibility-item {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .responsibility-item h3 {
+            color: var(--accent-color);
+        }
+
+        .responsibility-date {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* Authentication Styles */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .auth-toggle button.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .user-info {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        .user-info.active {
+            display: block;
+        }
+        
+        .user-info h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success-message {
+            color: var(--accent-color);
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .resume-container {
+                width: 90%;
+                height: auto;
+                aspect-ratio: 1 / 1.414; /* A4 aspect ratio */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-color);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+            }
+
+            .resume-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .resume-container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">Rahul Kumar</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#frontend">Frontend</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#training">Training</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Rahul Kumar</h1>
+                <p>Full Stack Developer | Problem Solver | Tech Enthusiast</p>
+                <p>Passionate about creating efficient, scalable solutions to complex problems using modern web technologies.</p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="rahul.JPG" alt="Rahul Kumar">
+                </div>
+                <div class="about-text">
+                    <h3>Hello! I'm Rahul Kumar</h3>
+                    <p>I'm a passionate full-stack developer currently pursuing my Bachelor of Technology in Computer Science and Engineering at Babu Banarasi Das University, Lucknow.</p>
+                    <p>My journey in web development started during my college years, and I've been actively building projects and enhancing my skills ever since. I specialize in JavaScript technologies including React, Node.js, and MongoDB.</p>
+                    <p>When I'm not coding, you can find me solving problems on LeetCode, contributing to open-source projects, or exploring new technologies in the ever-evolving tech landscape.</p>
+                    <a href="#contact" class="btn">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <i class="fab fa-js-square"></i>
+                    <h3>JavaScript</h3>
+                    <p>Proficient in modern JavaScript, ES6+ features, and building interactive web applications.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-react"></i>
+                    <h3>React.js</h3>
+                    <p>Experience in building dynamic user interfaces with React and related ecosystems.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-node-js"></i>
+                    <h3>Node.js</h3>
+                    <p>Server-side development with Express, REST APIs, and database integration.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database"></i>
+                    <h3>Database Design</h3>
+                    <p>MySQL and MongoDB for efficient data storage and retrieval.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-code"></i>
+                    <h3>C & C++</h3>
+                    <p>Strong foundation in programming fundamentals with C and C++.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-java"></i>
+                    <h3>Java</h3>
+                    <p>Object-oriented programming and application development with Java.</p>
+                </div>
+                <!-- New Skills Added -->
+                <!-- <div class="skill-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>Problem Solving</h3>
+                    <p>Strong analytical and problem-solving skills with expertise in Data Structures and Algorithms.</p>
+                </div> -->
+                <div class="skill-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Competitive Programming</h3>
+                    <p>Active participation in coding competitions on platforms like LeetCode, HackerRank, and Codeforces.</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-server"></i>
+                    <h3>CS Fundamentals</h3>
+                    <p>Solid understanding of computer science fundamentals and software engineering principles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frontend Development Section -->
+    <section id="frontend" class="frontend">
+        <div class="container">
+            <h2 class="section-title">Frontend Development</h2>
+            <div class="frontend-container">
+                <div class="frontend-item">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                    <p>Semantic markup, accessibility, and modern HTML5 features for structured web content.</p>
+                </div>
+                <div class="frontend-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                    <p>Advanced styling, Flexbox, Grid, animations, and responsive design principles.</p>
+                </div>
+                <div class="frontend-item">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p>DOM manipulation, ES6+ features, asynchronous programming, and modern JS frameworks.</p>
+                </div>
+                <div class="frontend-item">
+                    <i class="fab fa-react"></i>
+                    <h3>React & Frameworks</h3>
+                    <p>Component-based architecture, state management, and modern frontend frameworks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certifications-container">
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fas fa-award"></i>
+                    <h3>Full-Stack Development</h3>
+                    <p>Udemy</p>
+                    <p>Covering C, C++, Java, JavaScript, NodeJS, ReactJS and jQuery</p>
+                </a>
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud Computing & DevOps</h3>
+                    <p>Udemy</p>
+                    <p>AWS, GCP, Azure, SQL, MongoDB, Git, GitHub and CI/CD practices</p>
+                </a>
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI/ML & Soft Skills</h3>
+                    <p>Udemy</p>
+                    <p>ChatGPT, Generative AI, Communication and Presentation Skills</p>
+                </a>
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Frontend Development</h3>
+                    <p>Udemy</p>
+                    <p>HTML5, CSS3, JavaScript, React, and modern frontend frameworks</p>
+                </a>
+                <!-- New Certification Slots -->
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fab fa-git-alt"></i>
+                    <h3>Git & GitHub</h3>
+                    <p>Udemy</p>
+                    <p>Version control, collaboration, branching strategies, and GitHub workflows</p>
+                </a>
+                <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Soft Skills</h3>
+                    <p>Udemy</p>
+                    <p>Communication, Leadership, Teamwork, Problem Solving, and Public Speaking</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-container">
+                <div class="education-item">
+                    <h3>Bachelor of Technology - Computer Science and Engineering</h3>
+                    <p class="education-date">September 2022 – Present</p>
+                    <p>Babu Banarasi Das University, Lucknow</p>
+                    <p>CGPA: 7.11</p>
+                </div>
+                <div class="education-item">
+                    <h3>Class 12th - Central Board of Secondary Education (CBSE)</h3>
+                    <p class="education-date">2018 – 2020</p>
+                    <p>Gyansthali, Gaya</p>
+                    <p>Grade: 68.6%</p>
+                </div>
+                <div class="education-item">
+                    <h3>Class 10th - Central Board of Secondary Education (CBSE)</h3>
+                    <p class="education-date">2010 – 2018</p>
+                    <p>DAV PUBLIC SCHOOL, Kahalgaon</p>
+                    <p>Grade: 83.5%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training & Internships Section -->
+    <section id="training" class="training">
+        <div class="container">
+            <h2 class="section-title">Training & Internships</h2>
+            <div class="training-container">
+                <div class="training-item">
+                    <h3>Full Stack MERN Internship</h3>
+                    <p class="training-date">June 2025 – August 2025</p>
+                    <p>GRAStech, Noida</p>
+                    <p>Hands-on experience in building full-stack applications using MongoDB, Express.js, React.js, and Node.js</p>
+                </div>
+                <div class="training-item">
+                    <h3>Soft Skills Training Program</h3>
+                    <p class="training-date">November 2024 – March 2025</p>
+                    <p>Learnovate Enterprises, Lucknow</p>
+                    <p>Enhanced communication, leadership, and teamwork abilities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Positions of Responsibility Section -->
+    <section id="responsibility" class="responsibility">
+        <div class="container">
+            <h2 class="section-title">Positions of Responsibility</h2>
+            <div class="responsibility-container">
+                <div class="responsibility-item">
+                    <h3>NSS Management and Photography Team</h3>
+                    <p class="responsibility-date">October 2022 – September 2024</p>
+                    <p>Babu Banarasi Das University, Lucknow</p>
+                    <p>• Managed photography coverage of events, creating visual content for reports and campus publications.</p>
+                    <p>• Collaborated with faculty and peers to organize campus-wide NSS activities with 100+ student participation.</p>
+                    <p>• Led the planning and execution of NSS community service events, including cleanliness drives, health camps, and educational sessions in local schools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-container">
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80" alt="Netflix Clone">
+                    </div>
+                    <div class="project-info">
+                        <h3>Netflix Clone</h3>
+                        <p>Simplified Front-End Clone of Netflix with authentication and movie streaming capabilities using TMDb MovieDB API.</p>
+                        <div class="project-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>React</span>
+                            <span>Firebase</span>
+                            <span>API</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://net-flix-clone-rahul11f.netlify.app/" target="_blank" class="btn">Live Demo</a>
+                            <a href="https://github.com/rahul11f/netflix-clone" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Amazon Clone">
+                    </div>
+                    <div class="project-info">
+                        <h3>Amazon Clone</h3>
+                        <p>Fully responsive Amazon homepage clone with structured layout and dynamic responsiveness across screen sizes.</p>
+                        <div class="project-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>Flexbox</span>
+                            <span>FontAwesome</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://amazon-clone-rahul11f.netlify.app/" target="_blank" class="btn">Live Demo</a>
+                            <a href="https://github.com/rahul11f/amazon-clone" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Certificate Website">
+                    </div>
+                    <div class="project-info">
+                        <h3>Certificate Website</h3>
+                        <p>A responsive website to showcase certifications with modern design and smooth user experience.</p>
+                        <div class="project-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>Responsive</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="btn">Live Demo</a>
+                            <a href="https://github.com/rahul11f/certificate-website" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Resume Display Section -->
+    <section class="resume-display">
+        <div class="container">
+            <h2 class="section-title">My Resume</h2>
+            <div class="resume-actions">
+                <a href="RahulKumar_resume.pdf" target="_blank" class="btn">View Resume</a>
+                <a href="RahulKumar_resume.pdf" class="btn btn-secondary" download>Download PDF</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p>Feel free to reach out if you're looking for a developer, have a question, or just want to connect.</p>
+                    <div class="contact-details">
+                        <p><i class="fas fa-envelope"></i> raajrahul147@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +91-8434856473</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Lucknow, India</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/rahul-kumar147/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/rahul11f" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/_raazrahul_" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/rahul11f" target="_blank"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Authentication Section -->
+                <div class="login-form">
+                    <div class="auth-toggle">
+                        <button id="login-toggle" class="active">Login</button>
+                        <button id="signup-toggle">Sign Up</button>
+                    </div>
+                    
+                    <div class="auth-container">
+                        <!-- Login Form -->
+                        <form id="login-form" class="auth-form active">
+                            <h3>Login to My Portfolio</h3>
+                            <div class="form-group">
+                                <label for="login-email">Email</label>
+                                <input type="email" id="login-email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn login-btn">Login</button>
+                            <div id="login-error" class="error-message"></div>
+                        </form>
+                        
+                        <!-- Sign Up Form -->
+                        <form id="signup-form" class="auth-form">
+                            <h3>Create an Account</h3>
+                            <div class="form-group">
+                                <label for="signup-name">Full Name</label>
+                                <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-email">Email</label>
+                                <input type="email" id="signup-email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password">Password</label>
+                                <input type="password" id="signup-password" placeholder="Create a password (min. 6 characters)" required>
+                            </div>
+                            <button type="submit" class="btn login-btn">Sign Up</button>
+                            <div id="signup-error" class="error-message"></div>
+                            <div id="signup-success" class="success-message"></div>
+                        </form>
+                        
+                        <!-- User Info (shown after login) -->
+                        <div id="user-info" class="user-info">
+                            <h3>Welcome, <span id="user-name"></span>!</h3>
+                            <p>You are successfully logged in.</p>
+                            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <!-- <div class="social-links">
+                <a href="https://www.linkedin.com/in/rahul-kumar147/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/rahul11f" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/_raazrahul_" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/rahul11f" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div> -->
+            <p class="copyright">© 2023 Rahul Kumar. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJJGMzTTLu5MVE3QQvoZ3D6oFKnFSh1jA",
+            authDomain: "rahul11f-portfolio-website.firebaseapp.com",
+            projectId: "rahul11f-portfolio-website",
+            storageBucket: "rahul11f-portfolio-website.firebasestorage.app",
+            messagingSenderId: "178655445050",
+            appId: "1:178655445050:web:8b8d3f84257aac4d207503",
+            measurementId: "G-HW6J7L8JRN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // DOM Elements
+        const loginToggle = document.getElementById('login-toggle');
+        const signupToggle = document.getElementById('signup-toggle');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const userInfo = document.getElementById('user-info');
+        const userName = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+        const signupSuccess = document.getElementById('signup-success');
+
+        // Toggle between login and signup forms
+        loginToggle.addEventListener('click', () => {
+            loginToggle.classList.add('active');
+            signupToggle.classList.remove('active');
+            loginForm.classList.add('active');
+            signupForm.classList.remove('active');
+            clearMessages();
+        });
+
+        signupToggle.addEventListener('click', () => {
+            signupToggle.classList.add('active');
+            loginToggle.classList.remove('active');
+            signupForm.classList.add('active');
+            loginForm.classList.remove('active');
+            clearMessages();
+        });
+
+        // Login function
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    showUserInfo(user);
+                    clearMessages();
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    showError(loginError, errorMessage);
+                });
+        });
+
+        // Signup function
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed up
+                    const user = userCredential.user;
+                    
+                    // Update user profile with name
+                    updateProfile(user, {
+                        displayName: name
+                    }).then(() => {
+                        showSuccess(signupSuccess, "Account created successfully!");
+                        signupForm.reset();
+                    });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    showError(signupError, errorMessage);
+                });
+        });
+
+        // Logout function
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                userInfo.classList.remove('active');
+                loginForm.classList.add('active');
+                signupForm.classList.remove('active');
+                loginToggle.classList.add('active');
+                signupToggle.classList.remove('active');
+                clearMessages();
+            });
+        });
+
+        // Auth state observer
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                showUserInfo(user);
+            } else {
+                // User is signed out
+                userInfo.classList.remove('active');
+                loginForm.classList.add('active');
+            }
+        });
+
+        // Helper functions
+        function showUserInfo(user) {
+            userName.textContent = user.displayName || user.email;
+            userInfo.classList.add('active');
+            loginForm.classList.remove('active');
+            signupForm.classList.remove('active');
+        }
+
+        function showError(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function showSuccess(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function clearMessages() {
+            loginError.style.display = 'none';
+            signupError.style.display = 'none';
+            signupSuccess.style.display = 'none';
+        }
+
+        // Your existing mobile menu code
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
