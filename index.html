@@ -467,8 +467,8 @@
             transform: translateY(-5px);
         }
 
-        /* Login Form */
-        .login-form {
+        /* Feedback Form */
+        .feedback-form {
             background-color: var(--primary-color);
             padding: 30px;
             border-radius: 10px;
@@ -485,7 +485,7 @@
             color: var(--text-color);
         }
 
-        .form-group input {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 12px 15px;
             background-color: var(--secondary-color);
@@ -493,14 +493,15 @@
             border-radius: 5px;
             color: var(--text-color);
             font-size: 16px;
+            resize: vertical;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: none;
             border-color: var(--accent-color);
         }
 
-        .login-btn {
+        .feedback-btn {
             width: 100%;
             margin-top: 10px;
         }
@@ -537,6 +538,32 @@
 
         .footer-links a:hover {
             color: var(--accent-color);
+        }
+
+        .footer-social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .footer-social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
         }
 
         .copyright {
@@ -625,59 +652,7 @@
             margin-bottom: 10px;
         }
 
-        /* Authentication Styles */
-        .auth-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .auth-toggle {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .auth-toggle button {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-bottom: 2px solid transparent;
-        }
-        
-        .auth-toggle button.active {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-        }
-        
-        .auth-form {
-            display: none;
-        }
-        
-        .auth-form.active {
-            display: block;
-        }
-        
-        .user-info {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-        }
-        
-        .user-info.active {
-            display: block;
-        }
-        
-        .user-info h3 {
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-        
+        /* Message Styles */
         .error-message {
             color: #ff6b6b;
             margin-top: 10px;
@@ -690,6 +665,31 @@
             margin-top: 10px;
             text-align: center;
             display: none;
+        }
+
+        /* Rating Stars */
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 24px;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: var(--accent-color);
         }
 
         /* Responsive Design */
@@ -745,6 +745,11 @@
 
             .resume-container {
                 width: 95%;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
@@ -840,12 +845,6 @@
                     <h3>Java</h3>
                     <p>Object-oriented programming and application development with Java.</p>
                 </div>
-                <!-- New Skills Added -->
-                <!-- <div class="skill-item">
-                    <i class="fas fa-brain"></i>
-                    <h3>Problem Solving</h3>
-                    <p>Strong analytical and problem-solving skills with expertise in Data Structures and Algorithms.</p>
-                </div> -->
                 <div class="skill-item">
                     <i class="fas fa-laptop-code"></i>
                     <h3>Competitive Programming</h3>
@@ -918,7 +917,6 @@
                     <p>Udemy</p>
                     <p>HTML5, CSS3, JavaScript, React, and modern frontend frameworks</p>
                 </a>
-                <!-- New Certification Slots -->
                 <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="certification-item">
                     <i class="fab fa-git-alt"></i>
                     <h3>Git & GitHub</h3>
@@ -983,7 +981,7 @@
         </div>
     </section>
 
-     <!-- Positions of Responsibility Section -->
+    <!-- Positions of Responsibility Section -->
     <section id="responsibility" class="responsibility">
         <div class="container">
             <h2 class="section-title">Positions of Responsibility</h2>
@@ -1021,7 +1019,7 @@
                         </div>
                         <div class="project-links">
                             <a href="https://net-flix-clone-rahul11f.netlify.app/" target="_blank" class="btn">Live Demo</a>
-                            <a href="https://github.com/rahul11f/netflix-clone" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                            <a href="https://github.com/rahul11f/netflix-clone" target="_blank" class="btn btn-secondary">Source Code</a>
                         </div>
                     </div>
                 </div>
@@ -1040,7 +1038,7 @@
                         </div>
                         <div class="project-links">
                             <a href="https://amazon-clone-rahul11f.netlify.app/" target="_blank" class="btn">Live Demo</a>
-                            <a href="https://github.com/rahul11f/amazon-clone" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                            <a href="https://github.com/rahul11f/amazon-clone" target="_blank" class="btn btn-secondary">Source Code</a>
                         </div>
                     </div>
                 </div>
@@ -1059,15 +1057,34 @@
                         </div>
                         <div class="project-links">
                             <a href="https://certificate-website-seven.vercel.app/" target="_blank" class="btn">Live Demo</a>
-                            <a href="https://github.com/rahul11f/certificate-website" target="_blank" class="btn btn-secondary" class="btn btn-secondary">Source Code</a>
+                            <a href="https://github.com/rahul11f/certificate-website" target="_blank" class="btn btn-secondary">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fourth Project - This Portfolio -->
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Portfolio Website">
+                    </div>
+                    <div class="project-info">
+                        <h3>Portfolio Website</h3>
+                        <p>A modern, responsive portfolio website showcasing my skills, projects, and achievements with a sleek black theme and interactive elements.</p>
+                        <div class="project-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>Responsive</span>
+                            <span>UI/UX</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn">Live Demo</a>
+                            <a href="#" class="btn btn-secondary">Source Code</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-   
 
     <!-- Resume Display Section -->
     <section class="resume-display">
@@ -1093,64 +1110,54 @@
                         <p><i class="fas fa-phone"></i> +91-8434856473</p>
                         <p><i class="fas fa-map-marker-alt"></i> Lucknow, India</p>
                     </div>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/rahul-kumar147/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/rahul11f" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.instagram.com/_raazrahul_" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://x.com/rahul11f" target="_blank"><i class="fab fa-twitter"></i></a>
-                    </div>
                 </div>
                 
-                <!-- Authentication Section -->
-                <div class="login-form">
-                    <div class="auth-toggle">
-                        <button id="login-toggle" class="active">Login</button>
-                        <button id="signup-toggle">Sign Up</button>
-                    </div>
-                    
-                    <div class="auth-container">
-                        <!-- Login Form -->
-                        <form id="login-form" class="auth-form active">
-                            <h3>Login to My Portfolio</h3>
-                            <div class="form-group">
-                                <label for="login-email">Email</label>
-                                <input type="email" id="login-email" placeholder="Enter your email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="login-password">Password</label>
-                                <input type="password" id="login-password" placeholder="Enter your password" required>
-                            </div>
-                            <button type="submit" class="btn login-btn">Login</button>
-                            <div id="login-error" class="error-message"></div>
-                        </form>
-                        
-                        <!-- Sign Up Form -->
-                        <form id="signup-form" class="auth-form">
-                            <h3>Create an Account</h3>
-                            <div class="form-group">
-                                <label for="signup-name">Full Name</label>
-                                <input type="text" id="signup-name" placeholder="Enter your full name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="signup-email">Email</label>
-                                <input type="email" id="signup-email" placeholder="Enter your email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="signup-password">Password</label>
-                                <input type="password" id="signup-password" placeholder="Create a password (min. 6 characters)" required>
-                            </div>
-                            <button type="submit" class="btn login-btn">Sign Up</button>
-                            <div id="signup-error" class="error-message"></div>
-                            <div id="signup-success" class="success-message"></div>
-                        </form>
-                        
-                        <!-- User Info (shown after login) -->
-                        <div id="user-info" class="user-info">
-                            <h3>Welcome, <span id="user-name"></span>!</h3>
-                            <p>You are successfully logged in.</p>
-                            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                <!-- Feedback Form -->
+                <div class="feedback-form">
+                    <h3>Share Your Feedback</h3>
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <label for="feedback-name">Your Name</label>
+                            <input type="text" id="feedback-name" placeholder="Enter your name" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="feedback-email">Your Email</label>
+                            <input type="email" id="feedback-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback-subject">Subject</label>
+                            <select id="feedback-subject" required>
+                                <option value="" disabled selected>Select a subject</option>
+                                <option value="general">General Feedback</option>
+                                <option value="project">Project Collaboration</option>
+                                <option value="job">Job Opportunity</option>
+                                <option value="suggestion">Suggestion</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Rate My Portfolio</label>
+                            <div class="rating">
+                                <input type="radio" id="star5" name="rating" value="5">
+                                <label for="star5">★</label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4">★</label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3">★</label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2">★</label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1">★</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback-message">Your Message</label>
+                            <textarea id="feedback-message" rows="5" placeholder="Enter your feedback or message..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn feedback-btn">Send Feedback</button>
+                        <div id="feedback-success" class="success-message"></div>
+                        <div id="feedback-error" class="error-message"></div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1165,172 +1172,66 @@
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </div>
-            <!-- <div class="social-links">
+            <div class="footer-social-links">
                 <a href="https://www.linkedin.com/in/rahul-kumar147/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                 <a href="https://github.com/rahul11f" target="_blank"><i class="fab fa-github"></i></a>
                 <a href="https://www.instagram.com/_raazrahul_" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="https://x.com/rahul11f" target="_blank"><i class="fab fa-twitter"></i></a>
-            </div> -->
-            <p class="copyright">© 2023 Rahul Kumar. All Rights Reserved.</p>
+            </div>
+            <p class="copyright">© 2025 Rahul Kumar. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJJGMzTTLu5MVE3QQvoZ3D6oFKnFSh1jA",
-            authDomain: "rahul11f-portfolio-website.firebaseapp.com",
-            projectId: "rahul11f-portfolio-website",
-            storageBucket: "rahul11f-portfolio-website.firebasestorage.app",
-            messagingSenderId: "178655445050",
-            appId: "1:178655445050:web:8b8d3f84257aac4d207503",
-            measurementId: "G-HW6J7L8JRN"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-
-        // DOM Elements
-        const loginToggle = document.getElementById('login-toggle');
-        const signupToggle = document.getElementById('signup-toggle');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const userInfo = document.getElementById('user-info');
-        const userName = document.getElementById('user-name');
-        const logoutBtn = document.getElementById('logout-btn');
-        const loginError = document.getElementById('login-error');
-        const signupError = document.getElementById('signup-error');
-        const signupSuccess = document.getElementById('signup-success');
-
-        // Toggle between login and signup forms
-        loginToggle.addEventListener('click', () => {
-            loginToggle.classList.add('active');
-            signupToggle.classList.remove('active');
-            loginForm.classList.add('active');
-            signupForm.classList.remove('active');
-            clearMessages();
-        });
-
-        signupToggle.addEventListener('click', () => {
-            signupToggle.classList.add('active');
-            loginToggle.classList.remove('active');
-            signupForm.classList.add('active');
-            loginForm.classList.remove('active');
-            clearMessages();
-        });
-
-        // Login function
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Signed in
-                    const user = userCredential.user;
-                    showUserInfo(user);
-                    clearMessages();
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    showError(loginError, errorMessage);
-                });
-        });
-
-        // Signup function
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Signed up
-                    const user = userCredential.user;
-                    
-                    // Update user profile with name
-                    updateProfile(user, {
-                        displayName: name
-                    }).then(() => {
-                        showSuccess(signupSuccess, "Account created successfully!");
-                        signupForm.reset();
-                    });
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    showError(signupError, errorMessage);
-                });
-        });
-
-        // Logout function
-        logoutBtn.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                userInfo.classList.remove('active');
-                loginForm.classList.add('active');
-                signupForm.classList.remove('active');
-                loginToggle.classList.add('active');
-                signupToggle.classList.remove('active');
-                clearMessages();
-            });
-        });
-
-        // Auth state observer
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is signed in
-                showUserInfo(user);
-            } else {
-                // User is signed out
-                userInfo.classList.remove('active');
-                loginForm.classList.add('active');
-            }
-        });
-
-        // Helper functions
-        function showUserInfo(user) {
-            userName.textContent = user.displayName || user.email;
-            userInfo.classList.add('active');
-            loginForm.classList.remove('active');
-            signupForm.classList.remove('active');
-        }
-
-        function showError(element, message) {
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-
-        function showSuccess(element, message) {
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-
-        function clearMessages() {
-            loginError.style.display = 'none';
-            signupError.style.display = 'none';
-            signupSuccess.style.display = 'none';
-        }
-
-        // Your existing mobile menu code
+    <script>
+        // Mobile menu toggle
         document.querySelector('.mobile-menu').addEventListener('click', function() {
             document.querySelector('.nav-links').classList.toggle('active');
         });
 
+        // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.querySelector('.nav-links').classList.remove('active');
             });
+        });
+
+        // Feedback form handling
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('feedback-name').value;
+            const email = document.getElementById('feedback-email').value;
+            const subject = document.getElementById('feedback-subject').value;
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const message = document.getElementById('feedback-message').value;
+            
+            const successMessage = document.getElementById('feedback-success');
+            const errorMessage = document.getElementById('feedback-error');
+            
+            // Validate form
+            if (!name || !email || !subject || !message) {
+                errorMessage.textContent = 'Please fill in all required fields.';
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                return;
+            }
+            
+            if (!rating) {
+                errorMessage.textContent = 'Please rate my portfolio.';
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                return;
+            }
+            
+            // Simulate form submission (in a real scenario, this would send to a server)
+            setTimeout(() => {
+                successMessage.textContent = 'Thank you for your feedback! I\'ll get back to you soon.';
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Reset form
+                document.getElementById('feedback-form').reset();
+            }, 1000);
         });
     </script>
 </body>
