@@ -3,148 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahul Kumar - Portfolio</title>
+    <title>Rahul Kumar - Interactive Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJJGMzTTLu5MVE3QQvoZ3D6oFKnFSh1jA",
-            authDomain: "rahul11f-portfolio-website.firebaseapp.com",
-            projectId: "rahul11f-portfolio-website",
-            storageBucket: "rahul11f-portfolio-website.firebasestorage.app",
-            messagingSenderId: "178655445050",
-            appId: "1:178655445050:web:8b8d3f84257aac4d207503",
-            measurementId: "G-HW6J7L8JRN"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Make auth available globally
-        window.auth = auth;
-
-        // Feedback function
-        window.saveFeedbackToFirebase = async function(feedbackData) {
-            try {
-                const user = auth.currentUser;
-                if (!user) {
-                    throw new Error("User not authenticated");
-                }
-
-                const docRef = await addDoc(collection(db, "feedback"), {
-                    name: feedbackData.name,
-                    email: feedbackData.email,
-                    subject: feedbackData.subject,
-                    rating: feedbackData.rating,
-                    message: feedbackData.message,
-                    timestamp: serverTimestamp(),
-                    read: false,
-                    userId: user.uid,
-                    userEmail: user.email
-                });
-                console.log("Feedback saved with ID: ", docRef.id);
-                return { success: true, id: docRef.id };
-            } catch (error) {
-                console.error("Error saving feedback: ", error);
-                return { success: false, error: error.message };
-            }
-        };
-
-        // Authentication functions
-        window.signUpWithEmail = async function(email, password) {
-            try {
-                console.log("Attempting to sign up with:", email);
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                console.log("User created:", userCredential.user);
-                return { success: true, user: userCredential.user };
-            } catch (error) {
-                console.error("Sign up error:", error);
-                let errorMessage = error.message;
-                
-                // User-friendly error messages
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'This email is already registered. Please use a different email or login.';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'Password is too weak. Please use at least 6 characters.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email address. Please check your email.';
-                }
-                
-                return { success: false, error: errorMessage };
-            }
-        };
-
-        window.signInWithEmail = async function(email, password) {
-            try {
-                console.log("Attempting to sign in with:", email);
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                console.log("User signed in:", userCredential.user);
-                return { success: true, user: userCredential.user };
-            } catch (error) {
-                console.error("Sign in error:", error);
-                let errorMessage = error.message;
-                
-                // User-friendly error messages
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email. Please sign up first.';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password. Please try again.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email address. Please check your email.';
-                }
-                
-                return { success: false, error: errorMessage };
-            }
-        };
-
-        window.signOutUser = async function() {
-            try {
-                await signOut(auth);
-                console.log("User signed out");
-                return { success: true };
-            } catch (error) {
-                console.error("Sign out error:", error);
-                return { success: false, error: error.message };
-            }
-        };
-
-        // Auth state observer
-        onAuthStateChanged(auth, (user) => {
-            const userInfo = document.getElementById('user-info');
-            const authTabs = document.getElementById('auth-tabs');
-            const feedbackSection = document.getElementById('feedback-section');
-            
-            if (user) {
-                // User is signed in
-                console.log("User is signed in:", user.email);
-                if (userInfo) {
-                    userInfo.style.display = 'block';
-                    userInfo.innerHTML = `
-                        <span>Welcome, ${user.email}</span>
-                        <button onclick="logout()" class="btn btn-secondary btn-small">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    `;
-                }
-                if (authTabs) authTabs.style.display = 'none';
-                if (feedbackSection) feedbackSection.style.display = 'block';
-            } else {
-                // User is signed out
-                console.log("User is signed out");
-                if (userInfo) userInfo.style.display = 'none';
-                if (authTabs) authTabs.style.display = 'flex';
-                if (feedbackSection) feedbackSection.style.display = 'none';
-            }
-        });
-
-    </script>
-
     <style>
         /* Global Styles */
         * {
@@ -158,8 +19,11 @@
             --primary-color: #0a0a0a;
             --secondary-color: #1a1a1a;
             --accent-color: #00ff88;
+            --accent-glow: 0 0 10px rgba(0, 255, 136, 0.7);
             --text-color: #ffffff;
             --text-secondary: #b3b3b3;
+            --cyber-blue: #00ccff;
+            --cyber-purple: #cc00ff;
         }
 
         html {
@@ -171,6 +35,10 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 204, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(204, 0, 255, 0.03) 0%, transparent 30%);
         }
 
         .container {
@@ -182,6 +50,7 @@
 
         section {
             padding: 80px 0;
+            position: relative;
         }
 
         h1, h2, h3, h4 {
@@ -207,6 +76,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--accent-glow);
         }
 
         .btn::before {
@@ -227,7 +97,7 @@
         .btn:hover {
             background-color: #00cc6a;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.5);
         }
 
         .btn-small {
@@ -249,6 +119,9 @@
             text-align: center;
             margin-bottom: 50px;
             position: relative;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .section-title::after {
@@ -260,17 +133,36 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
+            box-shadow: var(--accent-glow);
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
         }
 
         /* Navigation */
         nav {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.9);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             animation: slideDown 0.8s ease-out;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         @keyframes slideDown {
@@ -297,6 +189,7 @@
             color: var(--accent-color);
             text-decoration: none;
             position: relative;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
         }
 
         .logo::after {
@@ -308,6 +201,7 @@
             left: 0;
             background-color: var(--accent-color);
             transition: width 0.3s ease;
+            box-shadow: var(--accent-glow);
         }
 
         .logo:hover::after {
@@ -331,6 +225,7 @@
             font-weight: 500;
             transition: color 0.3s ease;
             position: relative;
+            padding: 5px 0;
         }
 
         .nav-links a::after {
@@ -342,6 +237,7 @@
             left: 0;
             background-color: var(--accent-color);
             transition: width 0.3s ease;
+            box-shadow: var(--accent-glow);
         }
 
         .nav-links a:hover::after {
@@ -458,13 +354,14 @@
         .hero h1 {
             font-size: 4.5rem;
             margin-bottom: 20px;
-            background: linear-gradient(45deg, #ffffff, var(--accent-color));
+            background: linear-gradient(45deg, #ffffff, var(--accent-color), var(--cyber-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 1s ease 0.5s forwards;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
         .hero-subtitle {
@@ -474,6 +371,7 @@
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 1s ease 0.7s forwards;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .hero p {
@@ -508,27 +406,117 @@
             animation: bounce 2s infinite;
             cursor: pointer;
             z-index: 2;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
+        }
+
+        /* XP Progress Bar */
+        .xp-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+
+        .xp-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--accent-color));
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
+        }
+
+        /* Achievement System */
+        .achievement-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1002;
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+
+        .achievement-toast.show {
+            transform: translateX(0);
+        }
+
+        .achievement-icon {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+
+        .achievement-title {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .achievement-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Game Stats */
+        .game-stats {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            color: var(--accent-color);
+            font-weight: bold;
         }
 
         /* Authentication Section */
         .auth-section {
             background-color: var(--secondary-color);
             padding: 40px 0;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .auth-container {
             max-width: 500px;
             margin: 0 auto;
-            background-color: var(--primary-color);
+            background-color: rgba(10, 10, 10, 0.8);
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .auth-tabs {
             display: flex;
             margin-bottom: 20px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
         }
 
         .auth-tab {
@@ -543,6 +531,7 @@
         .auth-tab.active {
             border-bottom: 2px solid var(--accent-color);
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .auth-form {
@@ -566,8 +555,8 @@
         .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 12px 15px;
-            background-color: var(--secondary-color);
-            border: 1px solid #333;
+            background-color: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.3);
             border-radius: 5px;
             color: var(--text-color);
             font-size: 16px;
@@ -578,7 +567,7 @@
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
         /* Feedback Section */
@@ -586,16 +575,17 @@
             display: none;
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 1px solid #333;
+            border-top: 1px solid rgba(0, 255, 136, 0.3);
         }
 
         .feedback-section h3 {
             color: var(--accent-color);
             margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
-        /* Rating Stars - FIXED */
+        /* Rating Stars */
         .rating {
             display: flex;
             justify-content: center;
@@ -612,6 +602,7 @@
             color: #555;
             cursor: pointer;
             transition: color 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
         }
 
         .rating input:checked + label {
@@ -721,7 +712,10 @@
 
         /* About Section */
         .about {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.7);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .about-content {
@@ -737,10 +731,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transform: perspective(1000px) rotateY(-5deg);
             transition: transform 0.5s ease;
+            border: 1px solid rgba(0, 255, 136, 0.3);
         }
 
         .about-img:hover {
             transform: perspective(1000px) rotateY(0deg);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.3);
         }
 
         .about-img img {
@@ -766,12 +762,14 @@
         }
 
         .skill-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             padding: 30px;
             border-radius: 10px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .skill-item::before {
@@ -791,13 +789,36 @@
 
         .skill-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-color);
         }
 
         .skill-item i {
             font-size: 40px;
             color: var(--accent-color);
             margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Skill Progress Bars */
+        .skill-progress {
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--accent-color));
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1.5s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         /* Frontend Development Section */
@@ -808,13 +829,15 @@
         }
 
         .frontend-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .frontend-item::before {
@@ -834,13 +857,15 @@
 
         .frontend-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-color);
         }
 
         .frontend-item i {
             font-size: 40px;
             color: var(--accent-color);
             margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         /* Certifications Section */
@@ -851,7 +876,7 @@
         }
 
         .certification-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
@@ -862,6 +887,8 @@
             display: block;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .certification-item::before {
@@ -881,14 +908,16 @@
 
         .certification-item:hover {
             transform: translateY(-10px);
-            background-color: #222;
-            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.1);
+            background-color: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-color);
         }
 
         .certification-item i {
             font-size: 40px;
             color: var(--accent-color);
             margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         /* Education Roadmap Styles */
@@ -909,9 +938,10 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: linear-gradient(to bottom, var(--accent-color), transparent);
+            background: linear-gradient(to bottom, var(--accent-color), var(--cyber-blue), transparent);
             transform: translateX(-50%);
             z-index: 1;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .timeline-item {
@@ -941,7 +971,7 @@
         .timeline-marker {
             width: 70px;
             height: 70px;
-            background: var(--secondary-color);
+            background: rgba(26, 26, 26, 0.9);
             border: 3px solid var(--accent-color);
             border-radius: 50%;
             display: flex;
@@ -950,26 +980,31 @@
             z-index: 2;
             position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .timeline-marker i {
             font-size: 24px;
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .timeline-marker:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
         }
 
         .timeline-content {
             width: 45%;
-            background: var(--secondary-color);
+            background: rgba(26, 26, 26, 0.9);
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             position: relative;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .timeline-item:nth-child(odd) .timeline-content {
@@ -985,17 +1020,21 @@
             position: absolute;
             width: 20px;
             height: 20px;
-            background: var(--secondary-color);
+            background: rgba(26, 26, 26, 0.9);
             transform: rotate(45deg);
             top: 30px;
         }
 
         .timeline-item:nth-child(odd) .timeline-content::before {
             left: -10px;
+            border-left: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .timeline-item:nth-child(even) .timeline-content::before {
             right: -10px;
+            border-right: 1px solid rgba(0, 255, 136, 0.2);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .timeline-year {
@@ -1007,12 +1046,14 @@
             font-weight: bold;
             margin-bottom: 15px;
             font-size: 14px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .timeline-content h3 {
             color: var(--accent-color);
             margin-bottom: 15px;
             font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .education-item h4 {
@@ -1031,6 +1072,7 @@
             color: var(--accent-color);
             font-weight: bold;
             margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .education-skills {
@@ -1047,11 +1089,13 @@
             border-radius: 15px;
             font-size: 12px;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .education-skills span:hover {
             background: rgba(0, 255, 136, 0.2);
             transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
         /* Future timeline item styling */
@@ -1084,21 +1128,25 @@
         }
 
         .training-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             padding: 30px;
             border-radius: 10px;
             margin-bottom: 30px;
             position: relative;
             border-left: 4px solid var(--accent-color);
             transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .training-item:hover {
             transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
         }
 
         .training-item h3 {
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .training-date {
@@ -1115,11 +1163,13 @@
         }
 
         .project-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             border-radius: 10px;
             overflow: hidden;
             transition: all 0.3s ease;
             position: relative;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .project-item::before {
@@ -1140,7 +1190,8 @@
 
         .project-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-color);
         }
 
         .project-img {
@@ -1168,6 +1219,7 @@
 
         .project-info h3 {
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .project-tags {
@@ -1184,11 +1236,13 @@
             border-radius: 20px;
             font-size: 14px;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .project-tags span:hover {
             background-color: rgba(0, 255, 136, 0.2);
             transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
         .project-links {
@@ -1200,22 +1254,27 @@
         .project-links a {
             display: inline-block;
             padding: 8px 15px;
-            background-color: var(--primary-color);
+            background-color: rgba(10, 10, 10, 0.8);
             color: var(--text-color);
             text-decoration: none;
             border-radius: 5px;
             font-size: 14px;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .project-links a:hover {
             background-color: var(--accent-color);
             color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         /* Contact Section */
         .contact {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.7);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .contact-container {
@@ -1227,6 +1286,7 @@
         .contact-info h3 {
             color: var(--accent-color);
             margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .contact-details {
@@ -1242,6 +1302,7 @@
         .contact-details i {
             margin-right: 10px;
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .social-links {
@@ -1255,24 +1316,28 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: var(--primary-color);
+            background-color: rgba(10, 10, 10, 0.8);
             border-radius: 50%;
             color: var(--text-color);
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .social-links a:hover {
             background-color: var(--accent-color);
             color: var(--primary-color);
             transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
         }
 
         /* Footer */
         footer {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.9);
             padding: 30px 0;
             text-align: center;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .footer-links {
@@ -1298,6 +1363,7 @@
             left: 0;
             background-color: var(--accent-color);
             transition: width 0.3s ease;
+            box-shadow: var(--accent-glow);
         }
 
         .footer-links a:hover::after {
@@ -1321,17 +1387,19 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: var(--primary-color);
+            background-color: rgba(10, 10, 10, 0.8);
             border-radius: 50%;
             color: var(--text-color);
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .footer-social-links a:hover {
             background-color: var(--accent-color);
             color: var(--primary-color);
             transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
         }
 
         .copyright {
@@ -1343,7 +1411,10 @@
         .resume-display {
             text-align: center;
             padding: 40px 0;
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.7);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .resume-actions {
@@ -1360,21 +1431,25 @@
         }
 
         .responsibility-item {
-            background-color: var(--secondary-color);
+            background-color: rgba(26, 26, 26, 0.8);
             padding: 30px;
             border-radius: 10px;
             margin-bottom: 30px;
             position: relative;
             border-left: 4px solid var(--accent-color);
             transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
         .responsibility-item:hover {
             transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
         }
 
         .responsibility-item h3 {
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .responsibility-date {
@@ -1395,6 +1470,118 @@
             transform: translateY(0);
         }
 
+        /* Easter Egg */
+        .easter-egg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .easter-egg:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+        }
+
+        .easter-egg i {
+            color: var(--accent-color);
+            font-size: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Terminal */
+        .terminal {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 400px;
+            height: 300px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal-header {
+            background: rgba(26, 26, 26, 0.9);
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .terminal-close {
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--accent-color);
+        }
+
+        .terminal-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .terminal-prompt {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+
+        .terminal-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+            outline: none;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            background: rgba(10,10,10,0.9);
+            padding: 40px 0;
+            border-top: 1px solid rgba(0,255,136,0.2);
+        }
+
+        .feedback-item {
+            background: rgba(26,26,26,0.8);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
@@ -1403,10 +1590,11 @@
                 top: 70px;
                 left: 0;
                 width: 100%;
-                background-color: var(--secondary-color);
+                background-color: rgba(26, 26, 26, 0.95);
                 flex-direction: column;
                 padding: 20px;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
             }
 
             .nav-links.active {
@@ -1478,10 +1666,78 @@
             .timeline-content::before {
                 display: none;
             }
+
+            .terminal {
+                width: 90%;
+                right: 5%;
+            }
+
+            .game-stats {
+                bottom: 80px;
+                left: 5%;
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    
+    <!-- XP Progress Bar -->
+    <div class="xp-bar">
+        <div class="xp-progress" id="xp-progress"></div>
+    </div>
+    
+    <!-- Achievement Toast -->
+    <div class="achievement-toast" id="achievement-toast">
+        <div style="display: flex; align-items: center;">
+            <i class="fas fa-trophy achievement-icon"></i>
+            <div>
+                <div class="achievement-title" id="achievement-title">Achievement Unlocked!</div>
+                <div class="achievement-desc" id="achievement-desc">You discovered a secret feature!</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Stats -->
+    <div class="game-stats">
+        <div class="stat-item">
+            <span class="stat-label">Level:</span>
+            <span class="stat-value" id="level">1</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">XP:</span>
+            <span class="stat-value" id="xp">0/100</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Achievements:</span>
+            <span class="stat-value" id="achievements">0</span>
+        </div>
+    </div>
+    
+    <!-- Easter Egg -->
+    <div class="easter-egg" id="easter-egg">
+        <i class="fas fa-gamepad"></i>
+    </div>
+    
+    <!-- Terminal -->
+    <div class="terminal" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">SYSTEM TERMINAL</div>
+            <div class="terminal-close" id="terminal-close">×</div>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+            <div>Welcome to Rahul's Portfolio Terminal</div>
+            <div>Type 'help' for available commands</div>
+            <div>></div>
+        </div>
+        <div class="terminal-input">
+            <span class="terminal-prompt">></span>
+            <input type="text" class="terminal-input-field" id="terminal-input">
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav>
         <div class="container nav-container">
@@ -1544,7 +1800,7 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-img">
-                    <img src="rahul.JPG" alt="Rahul Kumar">
+                    <img src="rahul.JPG" alt="Rahul Kumar" onerror="this.style.display='none'">
                 </div>
                 <div class="about-text">
                     <h3>Hello! I'm Rahul Kumar</h3>
@@ -1566,41 +1822,81 @@
                     <i class="fab fa-js-square"></i>
                     <h3>JavaScript</h3>
                     <p>Proficient in modern JavaScript, ES6+ features, and building interactive web applications.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="90"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fab fa-react"></i>
                     <h3>React.js</h3>
                     <p>Experience in building dynamic user interfaces with React and related ecosystems.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="85"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fab fa-node-js"></i>
                     <h3>Node.js</h3>
                     <p>Server-side development with Express, REST APIs, and database integration.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="80"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fas fa-database"></i>
                     <h3>Database Design</h3>
                     <p>MySQL and MongoDB for efficient data storage and retrieval.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="75"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fas fa-code"></i>
                     <h3>C & C++</h3>
                     <p>Strong foundation in programming fundamentals with C and C++.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="70"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fab fa-java"></i>
                     <h3>Java</h3>
                     <p>Object-oriented programming and application development with Java.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="65"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fas fa-laptop-code"></i>
                     <h3>Competitive Programming</h3>
                     <p>Active participation in coding competitions on platforms like LeetCode, HackerRank, and Codeforces.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="60"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="skill-item">
                     <i class="fas fa-server"></i>
                     <h3>CS Fundamentals</h3>
                     <p>Solid understanding of computer science fundamentals and software engineering principles.</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="85"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1936,8 +2232,8 @@
                 </div>
                 
                 <!-- Contact Form -->
-                <div style="background-color: var(--primary-color); padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
-                    <h3 style="color: var(--accent-color); margin-bottom: 20px;">Quick Message</h3>
+                <div style="background-color: rgba(10, 10, 10, 0.8); padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 255, 136, 0.2); backdrop-filter: blur(10px);">
+                    <h3 style="color: var(--accent-color); margin-bottom: 20px; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">Quick Message</h3>
                     <p style="margin-bottom: 20px;">Feel free to send me a message directly through email or connect with me on social media.</p>
                     <a href="mailto:raajrahul147@gmail.com" class="btn" style="width: 100%; text-align: center;">
                         <i class="fas fa-envelope"></i> Send Email
@@ -2052,6 +2348,18 @@
         </div>
     </section>
 
+    <!-- Admin Panel Section -->
+    <section id="admin-panel" class="admin-panel">
+        <div class="container">
+            <h2 class="section-title">Feedback Admin Panel</h2>
+            <div class="auth-container">
+                <div id="feedback-list" style="max-height: 500px; overflow-y: auto;">
+                    <p>Loading feedback data...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -2071,69 +2379,405 @@
         </div>
     </footer>
 
-    <script>
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJJGMzTTLu5MVE3QQvoZ3D6oFKnFSh1jA",
+            authDomain: "rahul11f-portfolio-website.firebaseapp.com",
+            projectId: "rahul11f-portfolio-website",
+            storageBucket: "rahul11f-portfolio-website.firebasestorage.app",
+            messagingSenderId: "178655445050",
+            appId: "1:178655445050:web:8b8d3f84257aac4d207503",
+            measurementId: "G-HW6J7L8JRN"
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make auth available globally
+        window.auth = auth;
+        window.firebaseApp = app;
+        window.firestore = db;
+
+        // Authentication functions
+        window.signUpWithEmail = async function(email, password) {
+            try {
+                console.log("Attempting to sign up with:", email);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                console.log("User created:", userCredential.user);
+                return { success: true, user: userCredential.user };
+            } catch (error) {
+                console.error("Sign up error:", error);
+                let errorMessage = error.message;
+                
+                // User-friendly error messages
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'This email is already registered. Please use a different email or login.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please use at least 6 characters.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address. Please check your email.';
                 }
-            });
-        }, observerOptions);
+                
+                return { success: false, error: errorMessage };
+            }
+        };
 
-        // Observe all sections for scroll animations
-        document.querySelectorAll('section').forEach(section => {
-            section.classList.add('fade-in');
-            observer.observe(section);
-        });
+        window.signInWithEmail = async function(email, password) {
+            try {
+                console.log("Attempting to sign in with:", email);
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("User signed in:", userCredential.user);
+                return { success: true, user: userCredential.user };
+            } catch (error) {
+                console.error("Sign in error:", error);
+                let errorMessage = error.message;
+                
+                // User-friendly error messages
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No account found with this email. Please sign up first.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address. Please check your email.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed attempts. Please try again later.';
+                }
+                
+                return { success: false, error: errorMessage };
+            }
+        };
 
-        // Timeline animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            
-            const timelineObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+        window.signOutUser = async function() {
+            try {
+                await signOut(auth);
+                console.log("User signed out");
+                return { success: true };
+            } catch (error) {
+                console.error("Sign out error:", error);
+                return { success: false, error: error.message };
+            }
+        };
+
+        // Feedback function
+        window.saveFeedbackToFirebase = async function(feedbackData) {
+            try {
+                const user = auth.currentUser;
+                const docRef = await addDoc(collection(db, "feedback"), {
+                    name: feedbackData.name,
+                    email: feedbackData.email,
+                    subject: feedbackData.subject,
+                    rating: parseInt(feedbackData.rating),
+                    message: feedbackData.message,
+                    timestamp: serverTimestamp(),
+                    read: false,
+                    userId: user ? user.uid : 'anonymous',
+                    userEmail: user ? user.email : 'anonymous'
                 });
-            }, { threshold: 0.3 });
-            
-            timelineItems.forEach(item => {
-                timelineObserver.observe(item);
-            });
-            
-            // Add hover effects to timeline markers
-            const timelineMarkers = document.querySelectorAll('.timeline-marker');
-            timelineMarkers.forEach(marker => {
-                marker.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.1)';
-                    this.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.5)';
+                console.log("Feedback saved with ID: ", docRef.id);
+                return { success: true, id: docRef.id };
+            } catch (error) {
+                console.error("Error saving feedback: ", error);
+                return { success: false, error: error.message };
+            }
+        };
+
+        // Admin functions
+        window.getFeedbackData = async function() {
+            try {
+                const feedbackQuery = query(
+                    collection(db, "feedback"), 
+                    orderBy("timestamp", "desc")
+                );
+                const querySnapshot = await getDocs(feedbackQuery);
+                const feedbacks = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    feedbacks.push({
+                        id: doc.id,
+                        name: data.name || 'N/A',
+                        email: data.email || 'N/A',
+                        subject: data.subject || 'N/A',
+                        rating: data.rating || 0,
+                        message: data.message || 'N/A',
+                        timestamp: data.timestamp,
+                        read: data.read || false,
+                        userId: data.userId || 'N/A',
+                        userEmail: data.userEmail || 'N/A'
+                    });
                 });
                 
-                marker.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                    this.style.boxShadow = 'none';
+                return { success: true, data: feedbacks };
+            } catch (error) {
+                console.error("Error fetching feedback:", error);
+                return { success: false, error: error.message };
+            }
+        };
+
+        window.markFeedbackAsRead = async function(feedbackId) {
+            try {
+                const feedbackRef = doc(db, "feedback", feedbackId);
+                await updateDoc(feedbackRef, {
+                    read: true
                 });
-            });
+                return { success: true };
+            } catch (error) {
+                console.error("Error updating feedback:", error);
+                return { success: false, error: error.message };
+            }
+        };
+
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            console.log("Auth state changed:", user ? "User logged in" : "User logged out");
+            
+            setTimeout(() => {
+                const userInfo = document.getElementById('user-info');
+                const authTabs = document.getElementById('auth-tabs');
+                const feedbackSection = document.getElementById('feedback-section');
+                const adminPanel = document.getElementById('admin-panel');
+                
+                if (user) {
+                    // User is signed in
+                    console.log("User is signed in:", user.email);
+                    if (userInfo) {
+                        userInfo.style.display = 'flex';
+                        userInfo.innerHTML = `
+                            <span>Welcome, ${user.email}</span>
+                            ${user.email === 'raajrahul147@gmail.com' ? 
+                                `<button onclick="showAdminPanel()" class="btn btn-small">
+                                    <i class="fas fa-cog"></i> Admin
+                                </button>` : ''
+                            }
+                            <button onclick="logout()" class="btn btn-secondary btn-small">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        `;
+                    }
+                    if (authTabs) authTabs.style.display = 'none';
+                    if (feedbackSection) feedbackSection.style.display = 'block';
+                    
+                    // Show admin panel if admin user
+                    if (user.email === 'raajrahul147@gmail.com') {
+                        showAdminPanel();
+                    } else {
+                        hideAdminPanel();
+                    }
+                } else {
+                    // User is signed out
+                    console.log("User is signed out");
+                    if (userInfo) userInfo.style.display = 'none';
+                    if (authTabs) authTabs.style.display = 'flex';
+                    if (feedbackSection) feedbackSection.style.display = 'none';
+                    hideAdminPanel();
+                }
+            }, 100);
         });
+
+    </script>
+
+    <script>
+        // Game State
+        const gameState = {
+            xp: 0,
+            level: 1,
+            achievements: 0,
+            visitedSections: new Set(),
+            achievementsUnlocked: new Set()
+        };
+
+        // Initialize game state from localStorage
+        function initGameState() {
+            const savedState = localStorage.getItem('portfolioGameState');
+            if (savedState) {
+                const parsed = JSON.parse(savedState);
+                gameState.xp = parsed.xp || 0;
+                gameState.level = parsed.level || 1;
+                gameState.achievements = parsed.achievements || 0;
+                gameState.visitedSections = new Set(parsed.visitedSections || []);
+                gameState.achievementsUnlocked = new Set(parsed.achievementsUnlocked || []);
+            }
+            updateGameUI();
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            const stateToSave = {
+                xp: gameState.xp,
+                level: gameState.level,
+                achievements: gameState.achievements,
+                visitedSections: Array.from(gameState.visitedSections),
+                achievementsUnlocked: Array.from(gameState.achievementsUnlocked)
+            };
+            localStorage.setItem('portfolioGameState', JSON.stringify(stateToSave));
+        }
+
+        // Add XP
+        function addXP(amount, reason) {
+            gameState.xp += amount;
+            
+            // Check for level up
+            const xpNeeded = gameState.level * 100;
+            if (gameState.xp >= xpNeeded) {
+                gameState.level++;
+                gameState.xp = gameState.xp - xpNeeded;
+                showAchievement(`Level Up!`, `Reached Level ${gameState.level}`);
+            }
+            
+            updateGameUI();
+            saveGameState();
+        }
+
+        // Unlock achievement
+        function unlockAchievement(title, description) {
+            if (!gameState.achievementsUnlocked.has(title)) {
+                gameState.achievementsUnlocked.add(title);
+                gameState.achievements++;
+                addXP(50, `Achievement: ${title}`);
+                showAchievement(title, description);
+                saveGameState();
+            }
+        }
+
+        // Show achievement toast
+        function showAchievement(title, description) {
+            const toast = document.getElementById('achievement-toast');
+            const titleEl = document.getElementById('achievement-title');
+            const descEl = document.getElementById('achievement-desc');
+            
+            titleEl.textContent = title;
+            descEl.textContent = description;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Update game UI
+        function updateGameUI() {
+            document.getElementById('level').textContent = gameState.level;
+            document.getElementById('xp').textContent = `${gameState.xp}/${gameState.level * 100}`;
+            document.getElementById('achievements').textContent = gameState.achievements;
+            
+            // Update XP progress bar
+            const xpProgress = document.getElementById('xp-progress');
+            const progressPercent = (gameState.xp / (gameState.level * 100)) * 100;
+            xpProgress.style.width = `${progressPercent}%`;
+        }
+
+        // Terminal functionality
+        function initTerminal() {
+            const terminal = document.getElementById('terminal');
+            const terminalInput = document.getElementById('terminal-input');
+            const terminalOutput = document.getElementById('terminal-output');
+            const terminalClose = document.getElementById('terminal-close');
+            const easterEgg = document.getElementById('easter-egg');
+            
+            // Toggle terminal
+            easterEgg.addEventListener('click', () => {
+                terminal.style.display = terminal.style.display === 'flex' ? 'none' : 'flex';
+                if (terminal.style.display === 'flex') {
+                    terminalInput.focus();
+                    unlockAchievement('Terminal Access', 'You found the secret terminal!');
+                }
+            });
+            
+            // Close terminal
+            terminalClose.addEventListener('click', () => {
+                terminal.style.display = 'none';
+            });
+            
+            // Terminal commands
+            const commands = {
+                help: () => `Available commands: help, about, skills, projects, contact, clear, xp, level, secret`,
+                about: () => `I'm Rahul Kumar, a full-stack developer passionate about creating efficient solutions.`,
+                skills: () => `My skills include: JavaScript, React, Node.js, MongoDB, and more.`,
+                projects: () => `Check out my projects section to see my work!`,
+                contact: () => `You can reach me at raajrahul147@gmail.com`,
+                clear: () => {
+                    terminalOutput.innerHTML = '';
+                    return '';
+                },
+                xp: () => `Current XP: ${gameState.xp}/${gameState.level * 100}`,
+                level: () => `Current Level: ${gameState.level}`,
+                secret: () => {
+                    addXP(100, 'Secret command');
+                    return `You found a secret! +100 XP`;
+                }
+            };
+            
+            // Handle terminal input
+            terminalInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const command = terminalInput.value.trim().toLowerCase();
+                    terminalInput.value = '';
+                    
+                    let output = `> ${command}<br>`;
+                    
+                    if (commands[command]) {
+                        output += commands[command]();
+                    } else if (command) {
+                        output += `Command not found: ${command}`;
+                    }
+                    
+                    if (output) {
+                        terminalOutput.innerHTML += output + '<br>> ';
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    }
+                }
+            });
+        }
+
+        // Skill progress animation
+        function animateSkillBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = `${width}%`;
+                }, 500);
+            });
+        }
+
+        // Section tracking for XP
+        function trackSectionVisits() {
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        if (!gameState.visitedSections.has(sectionId)) {
+                            gameState.visitedSections.add(sectionId);
+                            addXP(20, `Visited ${sectionId} section`);
+                            
+                            // Special achievements for certain sections
+                            if (sectionId === 'projects' && !gameState.achievementsUnlocked.has('Project Explorer')) {
+                                unlockAchievement('Project Explorer', 'Viewed all projects');
+                            }
+                            
+                            if (sectionId === 'skills' && !gameState.achievementsUnlocked.has('Skill Master')) {
+                                unlockAchievement('Skill Master', 'Explored all skills');
+                            }
+                            
+                            saveGameState();
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
 
         // Authentication Functions
         function showAuthForm(formType) {
@@ -2156,7 +2800,7 @@
         }
 
         // Login Form Handler
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             
             const email = document.getElementById('login-email').value;
@@ -2164,37 +2808,44 @@
             const messageDiv = document.getElementById('login-message');
             const loginBtn = document.getElementById('login-btn');
             
-            messageDiv.style.display = 'none';
+            if (messageDiv) messageDiv.style.display = 'none';
             
             // Show loading state
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
             loginBtn.disabled = true;
             
             try {
-                console.log("Calling signInWithEmail...");
+                console.log("Attempting login...");
                 const result = await window.signInWithEmail(email, password);
                 if (result.success) {
-                    messageDiv.textContent = 'Login successful!';
-                    messageDiv.style.color = 'var(--accent-color)';
-                    messageDiv.style.display = 'block';
-                    this.reset();
+                    if (messageDiv) {
+                        messageDiv.textContent = 'Login successful!';
+                        messageDiv.style.color = 'var(--accent-color)';
+                        messageDiv.style.display = 'block';
+                    }
+                    e.target.reset();
+                    if (window.addXP) {
+                        window.addXP(30, 'Logged in');
+                    }
                 } else {
                     throw new Error(result.error);
                 }
             } catch (error) {
                 console.error("Login error:", error);
-                messageDiv.textContent = error.message;
-                messageDiv.style.color = '#ff6b6b';
-                messageDiv.style.display = 'block';
+                if (messageDiv) {
+                    messageDiv.textContent = error.message;
+                    messageDiv.style.color = '#ff6b6b';
+                    messageDiv.style.display = 'block';
+                }
             } finally {
                 // Reset button
                 loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
                 loginBtn.disabled = false;
             }
-        });
+        }
 
-        // Sign Up Form Handler - FIXED
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        // Sign Up Form Handler
+        async function handleSignup(e) {
             e.preventDefault();
             
             const email = document.getElementById('signup-email').value;
@@ -2202,208 +2853,41 @@
             const messageDiv = document.getElementById('signup-message');
             const signupBtn = document.getElementById('signup-btn');
             
-            messageDiv.style.display = 'none';
+            if (messageDiv) messageDiv.style.display = 'none';
             
             // Show loading state
             signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
             signupBtn.disabled = true;
             
             try {
-                console.log("Calling signUpWithEmail...");
-                // Only pass email and password (name is not required for Firebase Auth)
+                console.log("Attempting signup...");
                 const result = await window.signUpWithEmail(email, password);
                 if (result.success) {
-                    messageDiv.textContent = 'Account created successfully! You are now logged in.';
-                    messageDiv.style.color = 'var(--accent-color)';
-                    messageDiv.style.display = 'block';
-                    this.reset();
-                    // Don't switch to login form automatically - let user stay on feedback form
+                    if (messageDiv) {
+                        messageDiv.textContent = 'Account created successfully! You are now logged in.';
+                        messageDiv.style.color = 'var(--accent-color)';
+                        messageDiv.style.display = 'block';
+                    }
+                    e.target.reset();
+                    if (window.addXP) {
+                        window.addXP(50, 'Created account');
+                    }
                 } else {
                     throw new Error(result.error);
                 }
             } catch (error) {
                 console.error("Sign up error:", error);
-                messageDiv.textContent = error.message;
-                messageDiv.style.color = '#ff6b6b';
-                messageDiv.style.display = 'block';
+                if (messageDiv) {
+                    messageDiv.textContent = error.message;
+                    messageDiv.style.color = '#ff6b6b';
+                    messageDiv.style.display = 'block';
+                }
             } finally {
                 // Reset button
                 signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
                 signupBtn.disabled = false;
             }
-        });
-
-        // Feedback form handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const feedbackForm = document.getElementById('feedbackForm');
-            const successMessage = document.getElementById('feedback-success');
-            const errorMessage = document.getElementById('feedback-error');
-
-            if (feedbackForm) {
-                feedbackForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Check if user is authenticated
-                    const user = window.auth.currentUser;
-                    if (!user) {
-                        errorMessage.textContent = 'Please login to submit feedback.';
-                        errorMessage.style.display = 'block';
-                        return;
-                    }
-                    
-                    // Get form values
-                    const name = document.getElementById('feedback-name').value.trim();
-                    const email = document.getElementById('feedback-email').value.trim();
-                    const subject = document.getElementById('feedback-subject').value;
-                    const rating = document.querySelector('input[name="rating"]:checked');
-                    const message = document.getElementById('feedback-message').value.trim();
-                    
-                    // Reset messages
-                    successMessage.style.display = 'none';
-                    errorMessage.style.display = 'none';
-                    
-                    // Validate form
-                    let isValid = true;
-                    let errorText = '';
-                    
-                    if (!name) {
-                        isValid = false;
-                        errorText = 'Please enter your name.';
-                    } else if (!email) {
-                        isValid = false;
-                        errorText = 'Please enter your email.';
-                    } else if (!validateEmail(email)) {
-                        isValid = false;
-                        errorText = 'Please enter a valid email address.';
-                    } else if (!subject) {
-                        isValid = false;
-                        errorText = 'Please select a subject.';
-                    } else if (!rating) {
-                        isValid = false;
-                        errorText = 'Please rate my portfolio.';
-                    } else if (!message) {
-                        isValid = false;
-                        errorText = 'Please enter your message.';
-                    }
-                    
-                    if (!isValid) {
-                        errorMessage.textContent = errorText;
-                        errorMessage.style.display = 'block';
-                        return;
-                    }
-                    
-                    // Show loading state
-                    const submitBtn = document.getElementById('feedback-btn');
-                    const originalText = submitBtn.textContent;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                    submitBtn.disabled = true;
-                    
-                    try {
-                        // Prepare feedback data
-                        const feedbackData = {
-                            name: name,
-                            email: email,
-                            subject: subject,
-                            rating: rating.value,
-                            message: message
-                        };
-                        
-                        // Save to Firebase
-                        const result = await window.saveFeedbackToFirebase(feedbackData);
-                        
-                        if (result.success) {
-                            successMessage.textContent = 'Thank you for your feedback! I\'ll get back to you soon.';
-                            successMessage.style.display = 'block';
-                            errorMessage.style.display = 'none';
-                            
-                            // Reset form
-                            feedbackForm.reset();
-                            
-                            // Reset rating stars color
-                            document.querySelectorAll('.rating label').forEach(label => {
-                                label.style.color = '#555';
-                            });
-                        } else {
-                            throw new Error(result.error);
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        errorMessage.textContent = 'Sorry, there was an error sending your feedback. Please try again.';
-                        errorMessage.style.display = 'block';
-                    } finally {
-                        // Reset button
-                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Feedback';
-                        submitBtn.disabled = false;
-                    }
-                });
-                
-                // Email validation function
-                function validateEmail(email) {
-                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return re.test(email);
-                }
-                
-                // Add real-time validation
-                const inputs = feedbackForm.querySelectorAll('input, textarea, select');
-                inputs.forEach(input => {
-                    input.addEventListener('input', function() {
-                        // Clear error message when user starts typing
-                        errorMessage.style.display = 'none';
-                    });
-                });
-            }
-        });
-
-        // Enhanced rating stars interaction - FIXED
-        document.addEventListener('DOMContentLoaded', function() {
-            const ratingLabels = document.querySelectorAll('.rating label');
-            
-            ratingLabels.forEach(label => {
-                label.addEventListener('click', function() {
-                    const radio = this.previousElementSibling;
-                    if (radio) {
-                        radio.checked = true;
-                        // Update all stars colors
-                        updateRatingStars();
-                    }
-                });
-                
-                label.addEventListener('mouseover', function() {
-                    const currentLabel = this;
-                    let foundCurrent = false;
-                    
-                    ratingLabels.forEach(lbl => {
-                        if (lbl === currentLabel) {
-                            foundCurrent = true;
-                            lbl.style.color = 'var(--accent-color)';
-                        } else if (!foundCurrent) {
-                            lbl.style.color = 'var(--accent-color)';
-                        } else {
-                            lbl.style.color = '#555';
-                        }
-                    });
-                });
-            });
-            
-            // Reset stars when mouse leaves rating container
-            const ratingContainer = document.querySelector('.rating');
-            if (ratingContainer) {
-                ratingContainer.addEventListener('mouseleave', updateRatingStars);
-            }
-            
-            function updateRatingStars() {
-                const checkedRadio = document.querySelector('.rating input:checked');
-                ratingLabels.forEach(label => {
-                    if (checkedRadio) {
-                        const labelValue = parseInt(label.htmlFor.replace('star', ''));
-                        const checkedValue = parseInt(checkedRadio.value);
-                        label.style.color = labelValue <= checkedValue ? 'var(--accent-color)' : '#555';
-                    } else {
-                        label.style.color = '#555';
-                    }
-                });
-            }
-        });
+        }
 
         // Logout function
         window.logout = async function() {
@@ -2439,6 +2923,103 @@
             });
         };
 
+        // Admin Panel Functions
+        function showAdminPanel() {
+            const adminPanel = document.getElementById('admin-panel');
+            if (adminPanel) {
+                adminPanel.style.display = 'block';
+                loadFeedbackData();
+            }
+        }
+
+        function hideAdminPanel() {
+            const adminPanel = document.getElementById('admin-panel');
+            if (adminPanel) {
+                adminPanel.style.display = 'none';
+            }
+        }
+
+        async function loadFeedbackData() {
+            const feedbackList = document.getElementById('feedback-list');
+            if (!feedbackList) return;
+            
+            feedbackList.innerHTML = '<p>Loading feedback...</p>';
+            
+            try {
+                const result = await window.getFeedbackData();
+                if (result.success) {
+                    displayFeedback(result.data);
+                } else {
+                    feedbackList.innerHTML = `<p class="error-message">Error loading feedback: ${result.error}</p>`;
+                }
+            } catch (error) {
+                feedbackList.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
+            }
+        }
+
+        function displayFeedback(feedbacks) {
+            const feedbackList = document.getElementById('feedback-list');
+            if (!feedbackList) return;
+            
+            if (feedbacks.length === 0) {
+                feedbackList.innerHTML = '<p>No feedback submitted yet.</p>';
+                return;
+            }
+            
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <p>Total Feedback: ${feedbacks.length}</p>
+                    <button onclick="loadFeedbackData()" class="btn btn-small">Refresh</button>
+                </div>
+            `;
+            
+            feedbacks.forEach(feedback => {
+                const date = feedback.timestamp ? 
+                    new Date(feedback.timestamp.toDate()).toLocaleString() : 'No date';
+                
+                const readStatus = feedback.read ? 
+                    '<span style="color: var(--accent-color);">✓ Read</span>' : 
+                    '<span style="color: #ff6b6b;">● Unread</span>';
+                
+                html += `
+                    <div class="feedback-item" style="border-left-color: ${feedback.read ? 'var(--accent-color)' : '#ff6b6b'}">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: var(--accent-color); margin: 0;">${feedback.name}</h4>
+                            <div>
+                                ${readStatus}
+                                ${!feedback.read ? 
+                                    `<button onclick="markAsRead('${feedback.id}')" class="btn btn-small" style="margin-left: 10px;">
+                                        Mark Read
+                                    </button>` : ''
+                                }
+                            </div>
+                        </div>
+                        <p><strong>Email:</strong> ${feedback.email}</p>
+                        <p><strong>Subject:</strong> ${feedback.subject}</p>
+                        <p><strong>Rating:</strong> ${'★'.repeat(feedback.rating)}${'☆'.repeat(5-feedback.rating)}</p>
+                        <p><strong>Message:</strong> ${feedback.message}</p>
+                        <p><strong>Submitted:</strong> ${date}</p>
+                        <p><strong>User:</strong> ${feedback.userEmail}</p>
+                    </div>
+                `;
+            });
+            
+            feedbackList.innerHTML = html;
+        }
+
+        async function markAsRead(feedbackId) {
+            try {
+                const result = await window.markFeedbackAsRead(feedbackId);
+                if (result.success) {
+                    loadFeedbackData(); // Refresh the list
+                } else {
+                    alert('Error marking as read: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
         // Create particle animation
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -2468,10 +3049,20 @@
             }
         }
 
-        // Initialize particles when page loads
+        // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu').addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.querySelector('.nav-links').classList.remove('active');
+                });
+            });
+
             // Add smooth scrolling for all anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -2485,7 +3076,7 @@
                     }
                 });
             });
-            
+
             // Add active state to navigation links based on scroll position
             window.addEventListener('scroll', function() {
                 const sections = document.querySelectorAll('section');
@@ -2555,87 +3146,261 @@
                 setTimeout(type, 1000);
             }
 
-            // Add form validation styles
-            const formInputs = document.querySelectorAll('input, textarea, select');
-            formInputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.classList.add('focused');
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections for scroll animations
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('fade-in');
+                observer.observe(section);
+            });
+
+            // Timeline animation
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
+            });
+            
+            // Add hover effects to timeline markers
+            const timelineMarkers = document.querySelectorAll('.timeline-marker');
+            timelineMarkers.forEach(marker => {
+                marker.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.7)';
                 });
                 
-                input.addEventListener('blur', function() {
-                    if (this.value === '') {
-                        this.parentElement.classList.remove('focused');
-                    }
+                marker.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = '0 0 15px rgba(0, 255, 136, 0.5)';
                 });
             });
 
-            // Add loading animation to buttons
-            document.querySelectorAll('.btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    if (this.type === 'submit' || this.getAttribute('href') === '#') {
-                        // Add ripple effect
-                        const ripple = document.createElement('span');
-                        const rect = this.getBoundingClientRect();
-                        const size = Math.max(rect.width, rect.height);
-                        const x = e.clientX - rect.left - size / 2;
-                        const y = e.clientY - rect.top - size / 2;
+            // Initialize form handlers
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            
+            if (signupForm) {
+                signupForm.addEventListener('submit', handleSignup);
+            }
+
+            // Feedback form handling
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('feedback-name').value.trim();
+                    const email = document.getElementById('feedback-email').value.trim();
+                    const subject = document.getElementById('feedback-subject').value;
+                    const rating = document.querySelector('input[name="rating"]:checked');
+                    const message = document.getElementById('feedback-message').value.trim();
+                    
+                    // Reset messages
+                    const successMessage = document.getElementById('feedback-success');
+                    const errorMessage = document.getElementById('feedback-error');
+                    successMessage.style.display = 'none';
+                    errorMessage.style.display = 'none';
+                    
+                    // Validate form
+                    let isValid = true;
+                    let errorText = '';
+                    
+                    if (!name) {
+                        isValid = false;
+                        errorText = 'Please enter your name.';
+                    } else if (!email) {
+                        isValid = false;
+                        errorText = 'Please enter your email.';
+                    } else if (!validateEmail(email)) {
+                        isValid = false;
+                        errorText = 'Please enter a valid email address.';
+                    } else if (!subject) {
+                        isValid = false;
+                        errorText = 'Please select a subject.';
+                    } else if (!rating) {
+                        isValid = false;
+                        errorText = 'Please rate my portfolio.';
+                    } else if (!message) {
+                        isValid = false;
+                        errorText = 'Please enter your message.';
+                    }
+                    
+                    if (!isValid) {
+                        errorMessage.textContent = errorText;
+                        errorMessage.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = document.getElementById('feedback-btn');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        // Prepare feedback data
+                        const feedbackData = {
+                            name: name,
+                            email: email,
+                            subject: subject,
+                            rating: rating.value,
+                            message: message
+                        };
                         
-                        ripple.style.width = ripple.style.height = size + 'px';
-                        ripple.style.left = x + 'px';
-                        ripple.style.top = y + 'px';
-                        ripple.classList.add('ripple');
+                        // Save to Firebase
+                        const result = await window.saveFeedbackToFirebase(feedbackData);
                         
-                        this.appendChild(ripple);
-                        
-                        setTimeout(() => {
-                            ripple.remove();
-                        }, 600);
+                        if (result.success) {
+                            successMessage.textContent = 'Thank you for your feedback! I\'ll get back to you soon.';
+                            successMessage.style.display = 'block';
+                            errorMessage.style.display = 'none';
+                            
+                            // Reset form
+                            feedbackForm.reset();
+                            
+                            // Reset rating stars color
+                            document.querySelectorAll('.rating label').forEach(label => {
+                                label.style.color = '#555';
+                            });
+                            
+                            // Award XP for feedback
+                            addXP(40, 'Submitted feedback');
+                            
+                            if (!gameState.achievementsUnlocked.has('Feedback Provider')) {
+                                unlockAchievement('Feedback Provider', 'Submitted your first feedback');
+                            }
+                        } else {
+                            throw new Error(result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        errorMessage.textContent = 'Sorry, there was an error sending your feedback. Please try again.';
+                        errorMessage.style.display = 'block';
+                    } finally {
+                        // Reset button
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Feedback';
+                        submitBtn.disabled = false;
                     }
                 });
-            });
+                
+                // Email validation function
+                function validateEmail(email) {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return re.test(email);
+                }
+                
+                // Add real-time validation
+                const inputs = feedbackForm.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        // Clear error message when user starts typing
+                        const errorMessage = document.getElementById('feedback-error');
+                        errorMessage.style.display = 'none';
+                    });
+                });
+            }
 
-            // Add CSS for ripple effect
-            const rippleStyle = document.createElement('style');
-            rippleStyle.textContent = `
-                .btn {
-                    position: relative;
-                    overflow: hidden;
-                }
-                .ripple {
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.7);
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s linear;
-                }
-                @keyframes ripple-animation {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
+            // Enhanced rating stars interaction
+            const ratingLabels = document.querySelectorAll('.rating label');
+            
+            ratingLabels.forEach(label => {
+                label.addEventListener('click', function() {
+                    const radio = this.previousElementSibling;
+                    if (radio) {
+                        radio.checked = true;
+                        // Update all stars colors
+                        updateRatingStars();
                     }
-                }
-            `;
-            document.head.appendChild(rippleStyle);
-        });
+                });
+                
+                label.addEventListener('mouseover', function() {
+                    const currentLabel = this;
+                    let foundCurrent = false;
+                    
+                    ratingLabels.forEach(lbl => {
+                        if (lbl === currentLabel) {
+                            foundCurrent = true;
+                            lbl.style.color = 'var(--accent-color)';
+                        } else if (!foundCurrent) {
+                            lbl.style.color = 'var(--accent-color)';
+                        } else {
+                            lbl.style.color = '#555';
+                        }
+                    });
+                });
+            });
+            
+            // Reset stars when mouse leaves rating container
+            const ratingContainer = document.querySelector('.rating');
+            if (ratingContainer) {
+                ratingContainer.addEventListener('mouseleave', updateRatingStars);
+            }
+            
+            function updateRatingStars() {
+                const checkedRadio = document.querySelector('.rating input:checked');
+                ratingLabels.forEach(label => {
+                    if (checkedRadio) {
+                        const labelValue = parseInt(label.htmlFor.replace('star', ''));
+                        const checkedValue = parseInt(checkedRadio.value);
+                        label.style.color = labelValue <= checkedValue ? 'var(--accent-color)' : '#555';
+                    } else {
+                        label.style.color = '#555';
+                    }
+                });
+            }
 
-        // Handle page visibility change for performance
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                // Page is hidden, pause heavy animations if any
-            } else {
-                // Page is visible, resume animations
+            // Create particles
+            createParticles();
+            
+            // Initialize gaming features
+            initGameState();
+            initTerminal();
+            animateSkillBars();
+            trackSectionVisits();
+            
+            // Award XP for visiting the site
+            addXP(10, 'Visited portfolio');
+            
+            // Check for special achievements
+            if (!gameState.achievementsUnlocked.has('First Visit')) {
+                unlockAchievement('First Visit', 'Welcome to my portfolio!');
             }
         });
 
-        // Error boundary for Firebase operations
-        window.addEventListener('error', function(e) {
-            console.error('Global error:', e.error);
-        });
-
-        // Export functions for global access
+        // Make functions globally available
         window.showAuthForm = showAuthForm;
-        window.scrollToAbout = scrollToAbout;
-        window.logout = logout;
+        window.handleLogin = handleLogin;
+        window.handleSignup = handleSignup;
+        window.addXP = addXP;
+        window.unlockAchievement = unlockAchievement;
+        window.showAdminPanel = showAdminPanel;
+        window.loadFeedbackData = loadFeedbackData;
+        window.markAsRead = markAsRead;
 
         console.log('Portfolio website initialized successfully');
     </script>
