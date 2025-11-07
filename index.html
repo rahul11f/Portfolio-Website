@@ -891,34 +891,190 @@
             margin-bottom: 20px;
         }
 
-        /* Education Section */
-        .education-container {
-            max-width: 800px;
+        /* Education Roadmap Styles */
+        .education-roadmap {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .education-item {
-            background-color: var(--secondary-color);
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-color), transparent);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 80px;
             position: relative;
-            border-left: 4px solid var(--accent-color);
-            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
-        .education-item:hover {
-            transform: translateX(10px);
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .education-item h3 {
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-marker {
+            width: 70px;
+            height: 70px;
+            background: var(--secondary-color);
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-marker i {
+            font-size: 24px;
             color: var(--accent-color);
+        }
+
+        .timeline-marker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--secondary-color);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: 30px;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            transform: rotate(45deg);
+            top: 30px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            left: -10px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: -10px;
+        }
+
+        .timeline-year {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .timeline-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .education-item h4 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
         }
 
         .education-date {
             color: var(--text-secondary);
             font-style: italic;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+
+        .education-grade {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .education-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .education-skills span {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .education-skills span:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Future timeline item styling */
+        .timeline-item.future .timeline-marker {
+            background: rgba(0, 255, 136, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-item.future .timeline-content {
+            border: 1px dashed var(--accent-color);
+            background: rgba(10, 10, 10, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+            }
         }
 
         /* Training Section */
@@ -1295,6 +1451,33 @@
                 flex-direction: column;
                 gap: 10px;
             }
+
+            /* Education Roadmap Responsive */
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+                justify-content: flex-start;
+                padding-left: 60px;
+            }
+            
+            .timeline-marker {
+                position: absolute;
+                left: 0;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .timeline-content {
+                width: 100%;
+                margin: 0 !important;
+            }
+            
+            .timeline-content::before {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -1497,28 +1680,98 @@
         </div>
     </section>
 
-    <!-- Education Section -->
+    <!-- Education Section - Redesigned as Roadmap -->
     <section id="education" class="education">
         <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-container">
-                <div class="education-item">
-                    <h3>Bachelor of Technology - Computer Science and Engineering</h3>
-                    <p class="education-date">September 2022 – Present</p>
-                    <p>Babu Banarasi Das University, Lucknow</p>
-                    <p>CGPA: 7.11</p>
-                </div>
-                <div class="education-item">
-                    <h3>Class 12th - Central Board of Secondary Education (CBSE)</h3>
-                    <p class="education-date">2018 – 2020</p>
-                    <p>Gyansthali, Gaya</p>
-                    <p>Grade: 68.6%</p>
-                </div>
-                <div class="education-item">
-                    <h3>Class 10th - Central Board of Secondary Education (CBSE)</h3>
-                    <p class="education-date">2010 – 2018</p>
-                    <p>DAV PUBLIC SCHOOL, Kahalgaon</p>
-                    <p>Grade: 83.5%</p>
+            <h2 class="section-title">My Educational Journey</h2>
+            <div class="education-roadmap">
+                <!-- Timeline -->
+                <div class="timeline">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Timeline Item 1 - Childhood -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">2010-2018</div>
+                            <h3>Foundation Years</h3>
+                            <div class="education-item">
+                                <h4>Class 10th - CBSE</h4>
+                                <p class="education-date">DAV PUBLIC SCHOOL, Kahalgaon</p>
+                                <p class="education-grade">Grade: 83.5%</p>
+                                <div class="education-skills">
+                                    <span>Basic Education</span>
+                                    <span>Curiosity</span>
+                                    <span>Foundation Building</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 - Adolescence -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">2018-2020</div>
+                            <h3>Specialization Phase</h3>
+                            <div class="education-item">
+                                <h4>Class 12th - CBSE</h4>
+                                <p class="education-date">Gyansthali, Gaya</p>
+                                <p class="education-grade">Grade: 68.6%</p>
+                                <div class="education-skills">
+                                    <span>Science Stream</span>
+                                    <span>Problem Solving</span>
+                                    <span>Career Direction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 - Adulthood -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">2022-Present</div>
+                            <h3>Professional Development</h3>
+                            <div class="education-item">
+                                <h4>Bachelor of Technology - Computer Science</h4>
+                                <p class="education-date">Babu Banarasi Das University, Lucknow</p>
+                                <p class="education-grade">CGPA: 7.11</p>
+                                <div class="education-skills">
+                                    <span>Programming</span>
+                                    <span>Web Development</span>
+                                    <span>Problem Solving</span>
+                                    <span>Team Projects</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 - Future -->
+                    <div class="timeline-item future">
+                        <div class="timeline-marker">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">Future</div>
+                            <h3>Career Aspirations</h3>
+                            <div class="education-item">
+                                <h4>Full-Stack Developer</h4>
+                                <p class="education-date">Building innovative solutions</p>
+                                <div class="education-skills">
+                                    <span>Advanced Technologies</span>
+                                    <span>Leadership</span>
+                                    <span>Innovation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1849,6 +2102,37 @@
         document.querySelectorAll('section').forEach(section => {
             section.classList.add('fade-in');
             observer.observe(section);
+        });
+
+        // Timeline animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
+            });
+            
+            // Add hover effects to timeline markers
+            const timelineMarkers = document.querySelectorAll('.timeline-marker');
+            timelineMarkers.forEach(marker => {
+                marker.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.5)';
+                });
+                
+                marker.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = 'none';
+                });
+            });
         });
 
         // Authentication Functions
